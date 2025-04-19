@@ -7,6 +7,7 @@ import p5 from 'p5';
 import nothingSketch from './sketches/nothing/sketch.ts';
 import triangleSketch from './sketches/triangle/sketch.ts';
 import pointillismSketch from './sketches/pointillism/sketch.ts';
+import lineSketch from './sketches/line/sketch.ts';
 
 const fileInput = document.getElementById('file-input') as HTMLInputElement;
 const downloadButton = document.getElementById('download-button') as HTMLButtonElement;
@@ -94,7 +95,8 @@ const sketches = [
   {name: "Nothing", sketch: nothingSketch},
   {name: "Triangle", sketch: triangleSketch},
   {name: "Pointillism", sketch: pointillismSketch},
-]
+  {name: "Line", sketch: lineSketch},
+];
 
 const navList = document.getElementById('nav-list');
 
