@@ -1,5 +1,6 @@
 import './style.css'
 import './header.css'
+import './capture.css'
 
 import p5 from 'p5';
 
@@ -9,7 +10,16 @@ import pointillismSketch from './sketches/pointillism/sketch.ts';
 
 const fileInput = document.getElementById('file-input') as HTMLInputElement;
 const downloadButton = document.getElementById('download-button') as HTMLButtonElement;
+const captureButton = document.getElementById('capture-button') as HTMLButtonElement;
+const captureContainer = document.getElementById('capture-container') as HTMLDivElement;
+const saveButton = document.getElementById('save-button') as HTMLButtonElement;
+const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+const video = document.getElementById('video') as HTMLVideoElement;
+
 let url= '';
+let streaming = false;
+let width = 640;
+let height = 0;
 
 downloadButton.addEventListener('click', () => {
   const sketchContainer = document.getElementById('sketch');
@@ -37,11 +47,53 @@ fileInput.addEventListener('change', (event) => {
   }
 });
 
+captureButton.addEventListener('click', () => {
+  captureContainer.style.display = 'flex';
+  navigator.mediaDevices
+  .getUserMedia({ video: true, audio: false })
+  .then((stream) => {
+    video.srcObject = stream;
+    video.play();
+  })
+  .catch((err) => {
+    console.error(`An error occurred: ${err}`);
+  });
+
+  video.addEventListener(
+    "canplay",
+    (_) => {
+      if (!streaming) {
+        height = (video.videoHeight / video.videoWidth) * width;
+        video.setAttribute("width", width.toString());
+        video.setAttribute("height", height.toString());
+        streaming = true;
+      }
+    },
+    false,
+  );
+});
+
+saveButton.addEventListener('click', () => {
+  streaming = false;
+  captureContainer.style.display = 'none';
+
+  const context = canvas.getContext("2d") as CanvasRenderingContext2D;
+  if (width && height) {
+    canvas.width = width;
+    canvas.height = height;
+    context.drawImage(video, 0, 0, width, height);
+
+    url = canvas.toDataURL("image/png");
+    const selected = document.querySelector('.selected')!;
+    selected.dispatchEvent(new Event('click'));
+
+  }
+});
 
 const sketches = [
-  {name: "nothing", sketch: nothingSketch},
-  {name: "triangle", sketch: triangleSketch},
-  {name: "pointillism", sketch: pointillismSketch},
+  {name: "Nothing", sketch: nothingSketch},
+  {name: "Triangle", sketch: triangleSketch},
+  {name: "Pointillism", sketch: pointillismSketch},
 ]
 
 const navList = document.getElementById('nav-list');
