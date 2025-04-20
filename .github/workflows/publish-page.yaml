@@ -1,9 +1,11 @@
 name: Publish Page
 # This workflow builds the static files and deploys them to GitHub Pages
+
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   # Build job
