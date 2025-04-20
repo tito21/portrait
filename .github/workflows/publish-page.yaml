@@ -1,6 +1,9 @@
 name: Publish Page
 # This workflow builds the static files and deploys them to GitHub Pages
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   # Build job
@@ -24,7 +27,7 @@ jobs:
 
       - name: Upload static files as artifact
         id: deployment
-        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
 
@@ -34,6 +37,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write       # Added for GitHub Pages deployment
+      id-token: write    # Necessary for actions/deploy-pages
     needs: build
     steps:
       - name: Deploy to GitHub Pages
