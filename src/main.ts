@@ -8,6 +8,8 @@ import nothingSketch from './sketches/nothing/sketch.ts';
 import triangleSketch from './sketches/triangle/sketch.ts';
 import pointillismSketch from './sketches/pointillism/sketch.ts';
 import lineSketch from './sketches/line/sketch.ts';
+import stipplingSketch from './sketches/stippling/sketch.ts';
+import isoluminanceSketch from './sketches/isoluminance/sketch.ts';
 
 const fileInput = document.getElementById('file-input') as HTMLInputElement;
 const downloadButton = document.getElementById('download-button') as HTMLButtonElement;
@@ -96,6 +98,8 @@ const sketches = [
   {name: "Triangle", sketch: triangleSketch},
   {name: "Pointillism", sketch: pointillismSketch},
   {name: "Line", sketch: lineSketch},
+  {name: "Stippling", sketch: stipplingSketch},
+  {name: "Isoluminance", sketch: isoluminanceSketch},
 ];
 
 const navList = document.getElementById('nav-list');
